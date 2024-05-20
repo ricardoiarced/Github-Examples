@@ -27,11 +27,67 @@ mkdir /workspace/tmp
 cd /workspace/tmp
 ```
 
+
+
 ### HTTPS
 
 ```sh
 git clone https://github.com/rakiit/Github-Examples.git
 cd Github-Examples
+```
+
+> You'll need to generate a Personal Access Token (PAT)
+https://github.com/settings/token
+
+You will use the PAT as your password when you login
+
+- Give it access to Contents for commits
+
+### SSH
+
+```sh
+git clone git@github.com:rakiit/Github-Examples.git
+cd GitHub-Examples
+```
+
+We will need to create our own SSH rsa key pair
+
+```sh
+sshe-keygen -t  rsa
+```
+
+For WSL users and if you create a non default key you might need to add it
+
+```sh
+eval `ssh-agent`
+ssh-add /home/andrew/.ssh/alt-github_id_rsa
+```
+
+We can test our connection here:
+
+```sh
+ssh -T git@github.com
+```
+
+### GitHub CLI
+
+Install the CLI
+
+eg. Linux (Ubuntu)
+
+```sh
+(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+&& sudo mkdir -p -m 755 /etc/apt/keyrings \
+&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+```
+
+```sh
+gh auth login
+gh repo clone rakiit/Github-Examples
 ```
 
 ## Commits
@@ -54,12 +110,48 @@ git commit -m "add another exclamation"
 
 ## Branches
 
+List of branches
+
+```sh
+git branch
+```
+
+Create a new branch
+```sh
+git branch branch-name
+```
+
+Checkout the branch
+
+```sh
+git checkout branch-name
+```
+
 ## Remotes
+
+We can add remote but often you will just add remote via upstream when adding a branch
+
+```sh
+git remote add ...
+git branch -u origin new-feature
+```
 
 ## Stashing
 
+```sh
+git stash list
+git stash
+git stash save my-name
+git stash apply
+git stash pop
+```
+
 ## Merging
 
+```sh
+git checkout dev
+git merge main
+```
 ## Add
 
 When we want to stage changes that will be included in the commit.
